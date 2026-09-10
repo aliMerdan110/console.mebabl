@@ -9,6 +9,7 @@ const publicRoutes = [
   "/register",
   "/forgot-password",
   "/reset-password",
+  "/verify-email",
 ];
 
 export default function AuthGuard({
