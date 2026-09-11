@@ -1,3 +1,4 @@
+
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
@@ -36,7 +37,7 @@ export default function MobileAppLinksPage() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, [applicationId]);
 
   async function load() {
     setLoading(true);
@@ -44,7 +45,7 @@ export default function MobileAppLinksPage() {
 
     try {
       const response = await apiFetch(
-        "/api/applications/mobile-app-links"
+        `/applications/${applicationId}/mobile-app-links`,
       );
 
       if (!response.ok) {
@@ -57,16 +58,22 @@ export default function MobileAppLinksPage() {
         setRecord(data);
         setAndroidPackageName(data.androidPackageName ?? "");
         setAndroidFingerprint(
-          data.androidSha256CertificateFingerprint ?? ""
+          data.androidSha256CertificateFingerprint ?? "",
         );
         setIosBundleId(data.iosBundleId ?? "");
         setIosTeamId(data.iosTeamId ?? "");
+      } else {
+        setRecord(null);
+        setAndroidPackageName("");
+        setAndroidFingerprint("");
+        setIosBundleId("");
+        setIosTeamId("");
       }
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to load mobile app links."
+          : "Failed to load mobile app links.",
       );
     } finally {
       setLoading(false);
@@ -91,7 +98,7 @@ export default function MobileAppLinksPage() {
     try {
       if (record) {
         const response = await apiFetch(
-          `/api/applications/mobile-app-links/${record.id}`,
+          `/applications/${applicationId}/mobile-app-links/${record.id}`,
           {
             method: "PUT",
             headers: {
@@ -102,7 +109,7 @@ export default function MobileAppLinksPage() {
               ...body,
               isActive: true,
             }),
-          }
+          },
         );
 
         if (!response.ok) {
@@ -112,23 +119,21 @@ export default function MobileAppLinksPage() {
         setMessage("Mobile app links updated successfully.");
       } else {
         const response = await apiFetch(
-          "/api/applications/mobile-app-links",
+          `/applications/${applicationId}/mobile-app-links`,
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(body),
-          }
+          },
         );
 
         if (!response.ok) {
           throw new Error("Failed to save mobile app links.");
         }
 
-        await load();
         setMessage("Mobile app links saved successfully.");
-        return;
       }
 
       await load();
@@ -136,7 +141,7 @@ export default function MobileAppLinksPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to save mobile app links."
+          : "Failed to save mobile app links.",
       );
     } finally {
       setSaving(false);
@@ -152,10 +157,10 @@ export default function MobileAppLinksPage() {
 
     try {
       const response = await apiFetch(
-        `/api/applications/mobile-app-links/${record.id}`,
+        `/applications/${applicationId}/mobile-app-links/${record.id}`,
         {
           method: "DELETE",
-        }
+        },
       );
 
       if (!response.ok) {
@@ -173,7 +178,7 @@ export default function MobileAppLinksPage() {
       setError(
         err instanceof Error
           ? err.message
-          : "Failed to delete mobile app links."
+          : "Failed to delete mobile app links.",
       );
     } finally {
       setDeleting(false);
