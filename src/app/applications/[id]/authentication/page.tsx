@@ -1,3 +1,4 @@
+
 // src/app/applications/[id]/authentication/page.tsx
 
 "use client";
@@ -31,6 +32,7 @@ const tabs = [
   { label: "Users", href: "/users", icon: "users" },
   { label: "Sign-in methods", href: "/sign-in-method", icon: "key" },
   { label: "Email templates", href: "/templates", icon: "mail" },
+  { label: "Mobile App Links", href: "/mobile-app-links", icon: "mobile" },
   { label: "Usage", href: "/usage", icon: "chart" },
   { label: "Settings", href: "/settings", icon: "settings" },
 ];
@@ -285,6 +287,14 @@ export default function AuthenticationPage() {
               />
 
               <WorkspaceLink
+                href={`${basePath}/mobile-app-links`}
+                icon="mobile"
+                title="Mobile App Links"
+                text="Configure Android App Links and iOS Universal Links."
+                action="Configure"
+              />
+
+              <WorkspaceLink
                 href={`${basePath}/settings`}
                 icon="lock"
                 title="Security controls"
@@ -474,6 +484,13 @@ function Icon({
       <>
         <rect x="3" y="5" width="18" height="14" rx="2" />
         <path d="m3 7 9 6 9-6" />
+      </>
+    ),
+
+    mobile: (
+      <>
+        <rect x="7" y="2" width="10" height="20" rx="2" />
+        <path d="M11 18h2" />
       </>
     ),
 
