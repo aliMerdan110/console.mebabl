@@ -72,7 +72,7 @@ function ResetPasswordForm() {
 
     try {
       const response = await fetch(
-        "/api/platform/developers/reset-password",
+        "/api/developers/reset-password",
         {
           method: "POST",
           headers: {
